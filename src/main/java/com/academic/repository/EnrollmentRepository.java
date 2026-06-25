@@ -1,15 +1,27 @@
 package com.academic.repository;
 
 import com.academic.model.Enrollment;
-
+import com.academic.util.EnrollmentFileStorage;
 import java.util.ArrayList;
 
 public class EnrollmentRepository {
 
     private static EnrollmentRepository instance;
 
-    private final ArrayList<Enrollment> enrollments = new ArrayList<>();
-    private Long sequence = 1L;
+    private final ArrayList<Enrollment> enrollments = EnrollmentFileStorage.load();
+    private Long sequence = getNextSequence();
+
+    private Long getNextSequence() {
+        Long maxId = 0L;
+
+        for (Enrollment enrollment : enrollments) {
+            if (enrollment.getId() > maxId) {
+                maxId = enrollment.getId();
+            }
+        }
+
+        return maxId + 1;
+    }
 
     private EnrollmentRepository() {
     }
@@ -26,6 +38,7 @@ public class EnrollmentRepository {
         enrollment.setId(sequence);
         sequence++;
         enrollments.add(enrollment);
+        EnrollmentFileStorage.save(enrollments);
     }
 
     public ArrayList<Enrollment> findAll() {
@@ -63,6 +76,7 @@ public class EnrollmentRepository {
         }
 
         enrollments.remove(enrollment);
+        EnrollmentFileStorage.save(enrollments);
         return true;
     }
 }

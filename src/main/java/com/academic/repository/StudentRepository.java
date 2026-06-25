@@ -1,15 +1,27 @@
 package com.academic.repository;
 
 import com.academic.model.Student;
-
+import com.academic.util.StudentFileStorage;
 import java.util.ArrayList;
 
 public class StudentRepository {
 
     private static StudentRepository instance;
 
-    private final ArrayList<Student> students = new ArrayList<>();
-    private Long sequence = 1L;
+    private final ArrayList<Student> students = StudentFileStorage.load();
+    private Long sequence = getNextSequence();
+
+    private Long getNextSequence() {
+        Long maxId = 0L;
+
+        for (Student student : students) {
+            if (student.getId() > maxId) {
+                maxId = student.getId();
+            }
+        }
+
+        return maxId + 1;
+    }
 
     private StudentRepository() {
     }
@@ -26,6 +38,7 @@ public class StudentRepository {
         student.setId(sequence);
         sequence++;
         students.add(student);
+        StudentFileStorage.save(students);
     }
 
     public ArrayList<Student> findAll() {
@@ -56,6 +69,7 @@ public class StudentRepository {
         existingStudent.setEmail(updatedStudent.getEmail());
         existingStudent.setPhone(updatedStudent.getPhone());
 
+        StudentFileStorage.save(students);
         return true;
     }
 
@@ -67,6 +81,7 @@ public class StudentRepository {
         }
 
         students.remove(student);
+        StudentFileStorage.save(students);
         return true;
     }
 }

@@ -1,15 +1,27 @@
 package com.academic.repository;
 
 import com.academic.model.Grade;
-
+import com.academic.util.GradeFileStorage;
 import java.util.ArrayList;
 
 public class GradeRepository {
 
     private static GradeRepository instance;
 
-    private final ArrayList<Grade> grades = new ArrayList<>();
-    private Long sequence = 1L;
+    private final ArrayList<Grade> grades = GradeFileStorage.load();
+    private Long sequence = getNextSequence();
+
+    private Long getNextSequence() {
+        Long maxId = 0L;
+
+        for (Grade grade : grades) {
+            if (grade.getId() > maxId) {
+                maxId = grade.getId();
+            }
+        }
+
+        return maxId + 1;
+    }
 
     private GradeRepository() {
     }
@@ -26,6 +38,7 @@ public class GradeRepository {
         grade.setId(sequence);
         sequence++;
         grades.add(grade);
+        GradeFileStorage.save(grades);
     }
 
     public ArrayList<Grade> findAll() {
@@ -52,6 +65,7 @@ public class GradeRepository {
 
         existingGrade.setScore(updatedGrade.getScore());
         existingGrade.setLetter(updatedGrade.getLetter());
+        GradeFileStorage.save(grades);
         return true;
     }
 
@@ -63,6 +77,7 @@ public class GradeRepository {
         }
 
         grades.remove(grade);
+        GradeFileStorage.save(grades);
         return true;
     }
 

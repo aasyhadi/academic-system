@@ -127,8 +127,19 @@ public class GradeMenu {
             }
 
             double gpa = service.calculateGpaByStudentNim(nim);
+
             System.out.println();
-            System.out.println("IPK Sementara: " + gpa);
+            System.out.printf("IPK Sementara: %.2f%n", gpa);
+
+            if (gpa >= 3.5) {
+                ConsoleUtil.success("Status: Sangat Baik");
+            } else if (gpa >= 3.0) {
+                ConsoleUtil.success("Status: Baik");
+            } else if (gpa >= 2.0) {
+                ConsoleUtil.info("Status: Cukup");
+            } else {
+                ConsoleUtil.error("Status: Perlu Pembinaan Akademik");
+            }
 
         } catch (GradeException e) {
             ConsoleUtil.error(e.getMessage());

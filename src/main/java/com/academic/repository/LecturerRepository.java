@@ -1,6 +1,7 @@
 package com.academic.repository;
 
 import com.academic.model.Lecturer;
+import com.academic.util.LecturerFileStorage;
 
 import java.util.ArrayList;
 
@@ -8,8 +9,20 @@ public class LecturerRepository {
 
     private static LecturerRepository instance;
 
-    private final ArrayList<Lecturer> lecturers = new ArrayList<>();
-    private Long sequence = 1L;
+    private final ArrayList<Lecturer> lecturers = LecturerFileStorage.load();
+    private Long sequence = getNextSequence();
+
+    private Long getNextSequence() {
+        Long maxId = 0L;
+
+        for (Lecturer lecturer : lecturers) {
+            if (lecturer.getId() > maxId) {
+                maxId = lecturer.getId();
+            }
+        }
+
+        return maxId + 1;
+    }
 
     private LecturerRepository() {
     }
@@ -26,6 +39,7 @@ public class LecturerRepository {
         lecturer.setId(sequence);
         sequence++;
         lecturers.add(lecturer);
+        LecturerFileStorage.save(lecturers);
     }
 
     public ArrayList<Lecturer> findAll() {
@@ -55,6 +69,7 @@ public class LecturerRepository {
         existingLecturer.setEmail(updatedLecturer.getEmail());
         existingLecturer.setPhone(updatedLecturer.getPhone());
 
+        LecturerFileStorage.save(lecturers);
         return true;
     }
 
@@ -66,6 +81,7 @@ public class LecturerRepository {
         }
 
         lecturers.remove(lecturer);
+        LecturerFileStorage.save(lecturers);
         return true;
     }
 }

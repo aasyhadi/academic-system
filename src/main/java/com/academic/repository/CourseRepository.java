@@ -1,6 +1,7 @@
 package com.academic.repository;
 
 import com.academic.model.Course;
+import com.academic.util.CourseFileStorage;
 
 import java.util.ArrayList;
 
@@ -8,8 +9,20 @@ public class CourseRepository {
 
     private static CourseRepository instance;
 
-    private final ArrayList<Course> courses = new ArrayList<>();
-    private Long sequence = 1L;
+    private final ArrayList<Course> courses = CourseFileStorage.load();
+    private Long sequence = getNextSequence();
+
+    private Long getNextSequence() {
+        Long maxId = 0L;
+
+        for (Course course : courses) {
+            if (course.getId() > maxId) {
+                maxId = course.getId();
+            }
+        }
+
+        return maxId + 1;
+    }
 
     private CourseRepository() {
     }
@@ -26,6 +39,7 @@ public class CourseRepository {
         course.setId(sequence);
         sequence++;
         courses.add(course);
+        CourseFileStorage.save(courses);
     }
 
     public ArrayList<Course> findAll() {
@@ -53,6 +67,7 @@ public class CourseRepository {
         existingCourse.setCredit(updatedCourse.getCredit());
         existingCourse.setSemester(updatedCourse.getSemester());
 
+        CourseFileStorage.save(courses);
         return true;
     }
 
@@ -64,6 +79,7 @@ public class CourseRepository {
         }
 
         courses.remove(course);
+        CourseFileStorage.save(courses);
         return true;
     }
 }
