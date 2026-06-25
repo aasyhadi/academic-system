@@ -1,20 +1,17 @@
 package com.academic.model;
 
-public class Grade {
+public class Enrollment {
 
     private Long id;
     private String studentNim;
     private String courseCode;
-    private Double score;
-    private String letter;
 
-    public Grade() {
+    public Enrollment() {
     }
 
-    public Grade(String studentNim, String courseCode, Double score) {
+    public Enrollment(String studentNim, String courseCode) {
         this.studentNim = studentNim;
         this.courseCode = courseCode;
-        this.score = score;
     }
 
     public Long getId() {
@@ -29,10 +26,6 @@ public class Grade {
         return courseCode;
     }
 
-    public Double getScore() {
-        return score;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -44,12 +37,4 @@ public class Grade {
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public String getLetter() {return letter; }
-
-    public void setLetter(String letter) {this.letter = letter; }
 }

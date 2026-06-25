@@ -22,7 +22,8 @@ public class GradeMenu {
             System.out.println("3. Cari Nilai");
             System.out.println("4. Update Nilai");
             System.out.println("5. Hapus Nilai");
-            System.out.println("6. Kembali");
+            System.out.println("6. Transkrip Mahasiswa");
+            System.out.println("7. Kembali");
 
             int menu = InputUtil.inputInteger("Pilih menu: ");
 
@@ -32,7 +33,8 @@ public class GradeMenu {
                 case 3 -> searchGrade();
                 case 4 -> updateGrade();
                 case 5 -> deleteGrade();
-                case 6 -> running = false;
+                case 6 -> showStudentTranscript();
+                case 7 -> running = false;
                 default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
             }
         }
@@ -109,11 +111,36 @@ public class GradeMenu {
         }
     }
 
+    private void showStudentTranscript() {
+        try {
+            String nim = InputUtil.inputString("Masukkan NIM Mahasiswa: ");
+
+            if (service.getGradesByStudentNim(nim).isEmpty()) {
+                ConsoleUtil.info("Mahasiswa belum memiliki nilai.");
+                return;
+            }
+
+            ConsoleUtil.title("TRANSKRIP NILAI MAHASISWA");
+
+            for (Grade grade : service.getGradesByStudentNim(nim)) {
+                printGrade(grade);
+            }
+
+            double gpa = service.calculateGpaByStudentNim(nim);
+            System.out.println();
+            System.out.println("IPK Sementara: " + gpa);
+
+        } catch (GradeException e) {
+            ConsoleUtil.error(e.getMessage());
+        }
+    }
+
     private void printGrade(Grade grade) {
         ConsoleUtil.line();
         System.out.println("ID              : " + grade.getId());
         System.out.println("NIM Mahasiswa   : " + grade.getStudentNim());
         System.out.println("Kode Mata Kuliah: " + grade.getCourseCode());
         System.out.println("Nilai           : " + grade.getScore());
+        System.out.println("Huruf           : " + grade.getLetter());
     }
 }

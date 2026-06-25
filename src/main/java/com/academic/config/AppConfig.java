@@ -1,18 +1,21 @@
 package com.academic.config;
 
+import com.academic.repository.CourseRepository;
+import com.academic.repository.EnrollmentRepository;
+import com.academic.repository.GradeRepository;
 import com.academic.repository.LecturerRepository;
 import com.academic.repository.StudentRepository;
+import com.academic.service.CourseService;
+import com.academic.service.DashboardService;
+import com.academic.service.EnrollmentService;
+import com.academic.service.GradeService;
 import com.academic.service.LecturerService;
 import com.academic.service.StudentService;
+import com.academic.validation.CourseValidator;
+import com.academic.validation.EnrollmentValidator;
+import com.academic.validation.GradeValidator;
 import com.academic.validation.LecturerValidator;
 import com.academic.validation.StudentValidator;
-import com.academic.repository.CourseRepository;
-import com.academic.service.CourseService;
-import com.academic.validation.CourseValidator;
-import com.academic.repository.GradeRepository;
-import com.academic.service.GradeService;
-import com.academic.validation.GradeValidator;
-import com.academic.service.DashboardService;
 
 public class AppConfig {
 
@@ -57,19 +60,28 @@ public class AppConfig {
                     gradeValidator
             );
 
+    private static final EnrollmentRepository enrollmentRepository =
+            EnrollmentRepository.getInstance();
+
+    private static final EnrollmentValidator enrollmentValidator =
+            new EnrollmentValidator();
+
+    private static final EnrollmentService enrollmentService =
+            new EnrollmentService(
+                    enrollmentRepository,
+                    studentRepository,
+                    courseRepository,
+                    enrollmentValidator
+            );
+
     private static final DashboardService dashboardService =
             new DashboardService(
                     studentService,
                     lecturerService,
                     courseService,
-                    gradeService
+                    gradeService,
+                    enrollmentService
             );
-
-    public static DashboardService getDashboardService() {return dashboardService; }
-
-    public static GradeService getGradeService() {return gradeService;}
-
-    public static CourseService getCourseService() {return courseService; }
 
     public static StudentService getStudentService() {
         return studentService;
@@ -77,5 +89,21 @@ public class AppConfig {
 
     public static LecturerService getLecturerService() {
         return lecturerService;
+    }
+
+    public static CourseService getCourseService() {
+        return courseService;
+    }
+
+    public static GradeService getGradeService() {
+        return gradeService;
+    }
+
+    public static EnrollmentService getEnrollmentService() {
+        return enrollmentService;
+    }
+
+    public static DashboardService getDashboardService() {
+        return dashboardService;
     }
 }

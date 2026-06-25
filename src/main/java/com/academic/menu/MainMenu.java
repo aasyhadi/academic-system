@@ -13,6 +13,7 @@ public class MainMenu {
     private final CourseMenu courseMenu = new CourseMenu();
     private final GradeMenu gradeMenu = new GradeMenu();
     private final DashboardMenu dashboardMenu = new DashboardMenu();
+    private final EnrollmentMenu enrollmentMenu = new EnrollmentMenu();
 
     public void show() {
         if (!login()) {
@@ -29,7 +30,8 @@ public class MainMenu {
             System.out.println("3. Dosen");
             System.out.println("4. Mata Kuliah");
             System.out.println("5. Nilai");
-            System.out.println("6. Logout");
+            System.out.println("6. KRS / Enrollment");
+            System.out.println("7. Logout");
 
             int menu = InputUtil.inputInteger("Pilih menu: ");
 
@@ -39,11 +41,12 @@ public class MainMenu {
                 case 3 -> lecturerMenu.show();
                 case 4 -> courseMenu.show();
                 case 5 -> gradeMenu.show();
-                case 6 -> {
+                case 6 -> enrollmentMenu.show();
+                case 7 -> {
                     running = false;
-                    ConsoleUtil.success(MessageConstant.LOGOUT_SUCCESS);
+                    ConsoleUtil.success("Logout berhasil.");
                 }
-                default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
+                default -> ConsoleUtil.error("Menu tidak tersedia.");
             }
         }
     }

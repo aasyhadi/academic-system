@@ -51,6 +51,7 @@ public class GradeRepository {
         }
 
         existingGrade.setScore(updatedGrade.getScore());
+        existingGrade.setLetter(updatedGrade.getLetter());
         return true;
     }
 
@@ -63,5 +64,17 @@ public class GradeRepository {
 
         grades.remove(grade);
         return true;
+    }
+
+    public ArrayList<Grade> findByStudentNim(String nim) {
+        ArrayList<Grade> result = new ArrayList<>();
+
+        for (Grade grade : grades) {
+            if (grade.getStudentNim().equalsIgnoreCase(nim)) {
+                result.add(grade);
+            }
+        }
+
+        return result;
     }
 }

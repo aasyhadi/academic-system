@@ -6,15 +6,18 @@ public class DashboardService {
     private final LecturerService lecturerService;
     private final CourseService courseService;
     private final GradeService gradeService;
+    private final EnrollmentService enrollmentService;
 
     public DashboardService(StudentService studentService,
                             LecturerService lecturerService,
                             CourseService courseService,
-                            GradeService gradeService) {
+                            GradeService gradeService,
+                            EnrollmentService enrollmentService) {
         this.studentService = studentService;
         this.lecturerService = lecturerService;
         this.courseService = courseService;
         this.gradeService = gradeService;
+        this.enrollmentService = enrollmentService;
     }
 
     public int getTotalStudents() {
@@ -31,5 +34,9 @@ public class DashboardService {
 
     public int getTotalGrades() {
         return gradeService.getAllGrades().size();
+    }
+
+    public int getTotalEnrollments() {
+        return enrollmentService.getAllEnrollments().size();
     }
 }

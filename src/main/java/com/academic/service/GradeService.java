@@ -7,6 +7,8 @@ import com.academic.repository.GradeRepository;
 import com.academic.repository.StudentRepository;
 import com.academic.validation.GradeValidator;
 import com.academic.constant.MessageConstant;
+import com.academic.util.GradeUtil;
+import com.academic.util.GpaUtil;
 
 import java.util.ArrayList;
 
@@ -49,6 +51,8 @@ public class GradeService {
             throw new GradeException("Nilai untuk mahasiswa dan mata kuliah ini sudah ada.");
         }
 
+        grade.setLetter(GradeUtil.toLetter(grade.getScore()));
+
         gradeRepository.save(grade);
     }
 
@@ -73,6 +77,8 @@ public class GradeService {
             throw new GradeException(validationMessage);
         }
 
+        updatedGrade.setLetter(GradeUtil.toLetter(updatedGrade.getScore()));
+
         if (!gradeRepository.update(nim, courseCode, updatedGrade)) {
             throw new GradeException(MessageConstant.GRADE_NOT_FOUND);
         }
@@ -82,5 +88,29 @@ public class GradeService {
         if (!gradeRepository.delete(nim, courseCode)) {
             throw new GradeException(MessageConstant.GRADE_NOT_FOUND);
         }
+    }
+
+    public ArrayList<Grade> getGradesByStudentNim(String nim) {
+        if (studentRepository.findByNim(nim) == null) {
+            throw new GradeException(MessageConstant.STUDENT_NOT_FOUND);
+        }
+
+        return gradeRepository.findByStudentNim(nim);
+    }
+
+    public double calculateGpaByStudentNim(String nim) {
+        ArrayList<Grade> studentGrades = getGradesByStudentNim(nim);
+
+        if (studentGrades.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalPoint = 0.0;
+
+        for (Grade grade : studentGrades) {
+            totalPoint += GpaUtil.scoreToPoint(grade.getScore());
+        }
+
+        return totalPoint / studentGrades.size();
     }
 }

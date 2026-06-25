@@ -13,6 +13,7 @@ public class DashboardMenu {
         System.out.println("Total Mahasiswa   : " + service.getTotalStudents());
         System.out.println("Total Dosen       : " + service.getTotalLecturers());
         System.out.println("Total Mata Kuliah : " + service.getTotalCourses());
+        System.out.println("Total KRS         : " + service.getTotalEnrollments());
         System.out.println("Total Nilai       : " + service.getTotalGrades());
     }
 }
