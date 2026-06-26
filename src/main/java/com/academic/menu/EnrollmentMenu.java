@@ -8,6 +8,7 @@ import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.util.GenericTableUtil;
+import com.academic.util.AcademicCsvExporter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class EnrollmentMenu extends BaseMenu {
                     "2. Lihat Semua KRS",
                     "3. Lihat KRS Mahasiswa",
                     "4. Hapus KRS",
-                    "5. Kembali"
+                    "5. Export CSV KRS Mahasiswa",
+                    "6. Kembali"
             };
 
             printMenu("MENU KRS / ENROLLMENT", menus);
@@ -37,7 +39,8 @@ public class EnrollmentMenu extends BaseMenu {
                 case 2 -> showEnrollments();
                 case 3 -> showStudentEnrollments();
                 case 4 -> deleteEnrollment();
-                case 5 -> running = false;
+                case 5 -> AcademicCsvExporter.exportEnrollments(service.getAllEnrollments());
+                case 6 -> running = false;
                 default -> invalidMenu();
             }
         }

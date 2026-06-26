@@ -9,6 +9,7 @@ import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 import com.academic.util.GenericTableUtil;
+import com.academic.util.AcademicCsvExporter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class CourseMenu extends BaseMenu {
                     "3. Cari Mata Kuliah",
                     "4. Update Mata Kuliah",
                     "5. Hapus Mata Kuliah",
-                    "6. Kembali"
+                    "6. Export CSV Mata Kuliah",
+                    "7. Kembali"
             };
 
             printMenu("MENU MATA KULIAH", menus);
@@ -40,7 +42,8 @@ public class CourseMenu extends BaseMenu {
                 case 3 -> searchCourse();
                 case 4 -> updateCourse();
                 case 5 -> deleteCourse();
-                case 6 -> running = false;
+                case 6 -> AcademicCsvExporter.exportCourses(service.getAllCourses());
+                case 7 -> running = false;
                 default -> invalidMenu();
             }
         }

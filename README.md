@@ -1,6 +1,6 @@
 # Academic Management System
 
-Academic Management System adalah aplikasi console berbasis Java untuk mengelola data akademik seperti mahasiswa, dosen, mata kuliah, nilai, dan dashboard ringkas.
+Academic Management System adalah aplikasi console berbasis Java untuk mengelola data akademik seperti mahasiswa, dosen, mata kuliah, KRS, nilai, transkrip, IPK sederhana, dashboard, file storage, dan export CSV.
 
 ## Tech Stack
 
@@ -8,12 +8,16 @@ Academic Management System adalah aplikasi console berbasis Java untuk mengelola
 - Maven
 - IntelliJ IDEA
 - OOP
+- Collection Framework
+- Stream API
 - Repository Pattern
 - Service Layer
 - Validation
 - Exception Handling
 - Singleton Pattern
 - Factory Pattern
+- File Storage
+- CSV Export
 
 ## Features
 
@@ -23,10 +27,16 @@ Academic Management System adalah aplikasi console berbasis Java untuk mengelola
 - CRUD Dosen
 - CRUD Mata Kuliah
 - CRUD Nilai
-- Validasi Input
-- Auto Increment ID
-- Console Utility
-- Input Utility
+- KRS / Enrollment
+- Transkrip Nilai Mahasiswa
+- Nilai Huruf Otomatis
+- IPK Sementara
+- Search Mahasiswa by NIM, Nama, Jurusan
+- Sorting Mahasiswa by NIM, Nama, Semester
+- Pagination Mahasiswa
+- File Storage `.txt`
+- Export CSV
+- Console Table UI
 
 ## Login
 

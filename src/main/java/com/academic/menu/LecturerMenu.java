@@ -9,6 +9,7 @@ import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 import com.academic.util.GenericTableUtil;
+import com.academic.util.AcademicCsvExporter;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class LecturerMenu extends BaseMenu {
                     "3. Cari Dosen",
                     "4. Update Dosen",
                     "5. Hapus Dosen",
-                    "6. Kembali"
+                    "6. Export CSV Dosen",
+                    "7. Kembali"
             };
 
             printMenu("MENU DOSEN", menus);
@@ -40,7 +42,8 @@ public class LecturerMenu extends BaseMenu {
                 case 3 -> searchLecturer();
                 case 4 -> updateLecturer();
                 case 5 -> deleteLecturer();
-                case 6 -> running = false;
+                case 6 -> AcademicCsvExporter.exportLecturers(service.getAllLecturers());
+                case 7 -> running = false;
                 default -> invalidMenu();
             }
         }
