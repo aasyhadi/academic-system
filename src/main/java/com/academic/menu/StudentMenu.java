@@ -1,12 +1,15 @@
 package com.academic.menu;
 
+import com.academic.config.AppConfig;
+import com.academic.constant.MessageConstant;
 import com.academic.exception.StudentException;
 import com.academic.model.Student;
 import com.academic.service.StudentService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
-import com.academic.config.AppConfig;
-import com.academic.constant.MessageConstant;
+import com.academic.util.TableUtil;
+
+import java.util.ArrayList;
 
 public class StudentMenu {
 
@@ -19,10 +22,13 @@ public class StudentMenu {
             ConsoleUtil.title("MENU MAHASISWA");
             System.out.println("1. Tambah Mahasiswa");
             System.out.println("2. Lihat Mahasiswa");
-            System.out.println("3. Cari Mahasiswa");
-            System.out.println("4. Update Mahasiswa");
-            System.out.println("5. Hapus Mahasiswa");
-            System.out.println("6. Kembali");
+            System.out.println("3. Cari Mahasiswa by NIM");
+            System.out.println("4. Cari Mahasiswa by Nama");
+            System.out.println("5. Cari Mahasiswa by Jurusan");
+            System.out.println("6. Sorting Mahasiswa");
+            System.out.println("7. Update Mahasiswa");
+            System.out.println("8. Hapus Mahasiswa");
+            System.out.println("9. Kembali");
 
             int menu = InputUtil.inputInteger("Pilih menu: ");
 
@@ -30,9 +36,12 @@ public class StudentMenu {
                 case 1 -> addStudent();
                 case 2 -> showStudents();
                 case 3 -> searchStudent();
-                case 4 -> updateStudent();
-                case 5 -> deleteStudent();
-                case 6 -> running = false;
+                case 4 -> searchStudentByName();
+                case 5 -> searchStudentByMajor();
+                case 6 -> sortStudents();
+                case 7 -> updateStudent();
+                case 8 -> deleteStudent();
+                case 9 -> running = false;
                 default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
             }
         }
@@ -74,9 +83,7 @@ public class StudentMenu {
             return;
         }
 
-        for (Student student : service.getAllStudents()) {
-            printStudent(student);
-        }
+        printStudentTable(service.getAllStudents());
     }
 
     private void searchStudent() {
@@ -133,6 +140,76 @@ public class StudentMenu {
         } catch (StudentException e) {
             ConsoleUtil.error(e.getMessage());
         }
+    }
+
+    private void searchStudentByName() {
+        String keyword = InputUtil.inputString("Masukkan nama mahasiswa: ");
+
+        ArrayList<Student> students = service.searchStudentsByName(keyword);
+
+        if (students.isEmpty()) {
+            ConsoleUtil.info("Data mahasiswa tidak ditemukan.");
+            return;
+        }
+
+        printStudentTable(students);
+    }
+
+    private void sortStudents() {
+        ConsoleUtil.title("SORTING MAHASISWA");
+        System.out.println("1. Berdasarkan NIM");
+        System.out.println("2. Berdasarkan Nama");
+        System.out.println("3. Berdasarkan Semester");
+
+        int menu = InputUtil.inputInteger("Pilih sorting: ");
+
+        ArrayList<Student> students;
+
+        switch (menu) {
+            case 1 -> students = service.sortStudentsByNim();
+            case 2 -> students = service.sortStudentsByName();
+            case 3 -> students = service.sortStudentsBySemester();
+            default -> {
+                ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
+                return;
+            }
+        }
+
+        if (students.isEmpty()) {
+            ConsoleUtil.info(MessageConstant.STUDENT_EMPTY);
+            return;
+        }
+
+        printStudentTable(students);
+    }
+
+    private void printStudentTable(ArrayList<Student> students) {
+        TableUtil.printStudentHeader();
+
+        for (Student student : students) {
+            TableUtil.printStudentRow(
+                    student.getId(),
+                    student.getNim(),
+                    student.getName(),
+                    student.getMajor(),
+                    student.getSemester()
+            );
+        }
+
+        TableUtil.printStudentFooter();
+    }
+
+    private void searchStudentByMajor() {
+        String major = InputUtil.inputString("Masukkan jurusan mahasiswa: ");
+
+        ArrayList<Student> students = service.searchStudentsByMajor(major);
+
+        if (students.isEmpty()) {
+            ConsoleUtil.info("Data mahasiswa tidak ditemukan.");
+            return;
+        }
+
+        printStudentTable(students);
     }
 
     private void printStudent(Student student) {

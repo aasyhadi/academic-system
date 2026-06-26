@@ -3,6 +3,7 @@ package com.academic.repository;
 import com.academic.model.Student;
 import com.academic.util.StudentFileStorage;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class StudentRepository {
 
@@ -71,6 +72,26 @@ public class StudentRepository {
 
         StudentFileStorage.save(students);
         return true;
+    }
+
+    public ArrayList<Student> searchByName(String keyword) {
+        ArrayList<Student> result = new ArrayList<>();
+
+        for (Student student : students) {
+            if (student.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                result.add(student);
+            }
+        }
+
+        return result;
+    }
+
+    public ArrayList<Student> searchByMajor(String major) {
+        return students.stream()
+                .filter(student ->
+                        student.getMajor()
+                                .equalsIgnoreCase(major))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public boolean delete(String nim) {

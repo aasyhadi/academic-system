@@ -1,12 +1,13 @@
 package com.academic.service;
 
+import com.academic.constant.MessageConstant;
 import com.academic.exception.StudentException;
 import com.academic.model.Student;
 import com.academic.repository.StudentRepository;
 import com.academic.validation.StudentValidator;
-import com.academic.constant.MessageConstant;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class StudentService {
 
@@ -66,4 +67,31 @@ public class StudentService {
             throw new StudentException(MessageConstant.STUDENT_NOT_FOUND);
         }
     }
+
+    public ArrayList<Student> searchStudentsByName(String keyword) {
+        return repository.searchByName(keyword);
+    }
+
+    public ArrayList<Student> sortStudentsByNim() {
+        ArrayList<Student> result = new ArrayList<>(repository.findAll());
+        result.sort(Comparator.comparing(Student::getNim));
+        return result;
+    }
+
+    public ArrayList<Student> sortStudentsByName() {
+        ArrayList<Student> result = new ArrayList<>(repository.findAll());
+        result.sort(Comparator.comparing(Student::getName));
+        return result;
+    }
+
+    public ArrayList<Student> sortStudentsBySemester() {
+        ArrayList<Student> result = new ArrayList<>(repository.findAll());
+        result.sort(Comparator.comparing(Student::getSemester));
+        return result;
+    }
+
+    public ArrayList<Student> searchStudentsByMajor(String major) {
+        return repository.searchByMajor(major);
+    }
+
 }

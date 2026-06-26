@@ -6,6 +6,7 @@ import com.academic.model.Course;
 import com.academic.service.CourseService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
+import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 
 public class CourseMenu {
@@ -63,9 +64,19 @@ public class CourseMenu {
             return;
         }
 
+        TableUtil.printCourseHeader();
+
         for (Course course : service.getAllCourses()) {
-            printCourse(course);
+            TableUtil.printCourseRow(
+                    course.getId(),
+                    course.getCode(),
+                    course.getName(),
+                    course.getCredit(),
+                    course.getSemester()
+            );
         }
+
+        TableUtil.printCourseFooter();
     }
 
     private void searchCourse() {

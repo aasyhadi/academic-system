@@ -6,6 +6,7 @@ import com.academic.model.Grade;
 import com.academic.service.GradeService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
+import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 
 public class GradeMenu {
@@ -64,9 +65,19 @@ public class GradeMenu {
             return;
         }
 
+        TableUtil.printGradeHeader();
+
         for (Grade grade : service.getAllGrades()) {
-            printGrade(grade);
+            TableUtil.printGradeRow(
+                    grade.getId(),
+                    grade.getStudentNim(),
+                    grade.getCourseCode(),
+                    grade.getScore(),
+                    grade.getLetter()
+            );
         }
+
+        TableUtil.printGradeFooter();
     }
 
     private void searchGrade() {

@@ -6,6 +6,7 @@ import com.academic.model.Enrollment;
 import com.academic.service.EnrollmentService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
+import com.academic.util.TableUtil;
 
 public class EnrollmentMenu {
 
@@ -58,9 +59,17 @@ public class EnrollmentMenu {
             return;
         }
 
+        TableUtil.printEnrollmentHeader();
+
         for (Enrollment enrollment : service.getAllEnrollments()) {
-            printEnrollment(enrollment);
+            TableUtil.printEnrollmentRow(
+                    enrollment.getId(),
+                    enrollment.getStudentNim(),
+                    enrollment.getCourseCode()
+            );
         }
+
+        TableUtil.printEnrollmentFooter();
     }
 
     private void showStudentEnrollments() {

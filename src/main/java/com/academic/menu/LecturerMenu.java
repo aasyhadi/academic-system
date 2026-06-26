@@ -6,6 +6,7 @@ import com.academic.model.Lecturer;
 import com.academic.service.LecturerService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
+import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 
 public class LecturerMenu {
@@ -72,9 +73,18 @@ public class LecturerMenu {
             return;
         }
 
+        TableUtil.printLecturerHeader();
+
         for (Lecturer lecturer : service.getAllLecturers()) {
-            printLecturer(lecturer);
+            TableUtil.printLecturerRow(
+                    lecturer.getId(),
+                    lecturer.getNidn(),
+                    lecturer.getName(),
+                    lecturer.getDepartment()
+            );
         }
+
+        TableUtil.printLecturerFooter();
     }
 
     private void searchLecturer() {
