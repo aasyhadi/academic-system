@@ -8,8 +8,12 @@ import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
+import com.academic.util.GenericTableUtil;
 
-public class CourseMenu {
+import java.util.List;
+import java.util.ArrayList;
+
+public class CourseMenu extends BaseMenu {
 
     private final CourseService service = AppConfig.getCourseService();
 
@@ -17,15 +21,18 @@ public class CourseMenu {
         boolean running = true;
 
         while (running) {
-            ConsoleUtil.title("MENU MATA KULIAH");
-            System.out.println("1. Tambah Mata Kuliah");
-            System.out.println("2. Lihat Mata Kuliah");
-            System.out.println("3. Cari Mata Kuliah");
-            System.out.println("4. Update Mata Kuliah");
-            System.out.println("5. Hapus Mata Kuliah");
-            System.out.println("6. Kembali");
+            String[] menus = {
+                    "1. Tambah Mata Kuliah",
+                    "2. Lihat Mata Kuliah",
+                    "3. Cari Mata Kuliah",
+                    "4. Update Mata Kuliah",
+                    "5. Hapus Mata Kuliah",
+                    "6. Kembali"
+            };
 
-            int menu = InputUtil.inputInteger("Pilih menu: ");
+            printMenu("MENU MATA KULIAH", menus);
+
+            int menu = inputMenu();
 
             switch (menu) {
                 case 1 -> addCourse();
@@ -34,7 +41,7 @@ public class CourseMenu {
                 case 4 -> updateCourse();
                 case 5 -> deleteCourse();
                 case 6 -> running = false;
-                default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
+                default -> invalidMenu();
             }
         }
     }
@@ -64,19 +71,7 @@ public class CourseMenu {
             return;
         }
 
-        TableUtil.printCourseHeader();
-
-        for (Course course : service.getAllCourses()) {
-            TableUtil.printCourseRow(
-                    course.getId(),
-                    course.getCode(),
-                    course.getName(),
-                    course.getCredit(),
-                    course.getSemester()
-            );
-        }
-
-        TableUtil.printCourseFooter();
+        printCourseTable(service.getAllCourses());
     }
 
     private void searchCourse() {
@@ -126,6 +121,28 @@ public class CourseMenu {
         } catch (CourseException e) {
             ConsoleUtil.error(e.getMessage());
         }
+    }
+
+    private void printCourseTable(ArrayList<Course> courses) {
+        String[] headers = {
+                "ID",
+                "Kode MK",
+                "Nama MK",
+                "SKS",
+                "Semester"
+        };
+
+        List<String[]> rows = courses.stream()
+                .map(course -> new String[]{
+                        String.valueOf(course.getId()),
+                        course.getCode(),
+                        course.getName(),
+                        String.valueOf(course.getCredit()),
+                        course.getSemester()
+                })
+                .toList();
+
+        GenericTableUtil.print(headers, rows);
     }
 
     private void printCourse(Course course) {

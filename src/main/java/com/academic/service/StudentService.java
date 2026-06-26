@@ -94,4 +94,32 @@ public class StudentService {
         return repository.searchByMajor(major);
     }
 
+    public ArrayList<Student> getStudentsByPage(int page, int size) {
+        ArrayList<Student> allStudents = repository.findAll();
+        ArrayList<Student> result = new ArrayList<>();
+
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, allStudents.size());
+
+        if (start >= allStudents.size() || page < 1) {
+            return result;
+        }
+
+        for (int i = start; i < end; i++) {
+            result.add(allStudents.get(i));
+        }
+
+        return result;
+    }
+
+    public int getTotalStudentPages(int size) {
+        int totalData = repository.findAll().size();
+
+        if (totalData == 0) {
+            return 0;
+        }
+
+        return (int) Math.ceil((double) totalData / size);
+    }
+
 }

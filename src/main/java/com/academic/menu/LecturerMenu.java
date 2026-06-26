@@ -8,8 +8,12 @@ import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
+import com.academic.util.GenericTableUtil;
 
-public class LecturerMenu {
+import java.util.List;
+import java.util.ArrayList;
+
+public class LecturerMenu extends BaseMenu {
 
     private final LecturerService service = AppConfig.getLecturerService();
 
@@ -17,15 +21,18 @@ public class LecturerMenu {
         boolean running = true;
 
         while (running) {
-            ConsoleUtil.title("MENU DOSEN");
-            System.out.println("1. Tambah Dosen");
-            System.out.println("2. Lihat Dosen");
-            System.out.println("3. Cari Dosen");
-            System.out.println("4. Update Dosen");
-            System.out.println("5. Hapus Dosen");
-            System.out.println("6. Kembali");
+            String[] menus = {
+                    "1. Tambah Dosen",
+                    "2. Lihat Dosen",
+                    "3. Cari Dosen",
+                    "4. Update Dosen",
+                    "5. Hapus Dosen",
+                    "6. Kembali"
+            };
 
-            int menu = InputUtil.inputInteger("Pilih menu: ");
+            printMenu("MENU DOSEN", menus);
+
+            int menu = inputMenu();
 
             switch (menu) {
                 case 1 -> addLecturer();
@@ -34,7 +41,7 @@ public class LecturerMenu {
                 case 4 -> updateLecturer();
                 case 5 -> deleteLecturer();
                 case 6 -> running = false;
-                default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
+                default -> invalidMenu();
             }
         }
     }
@@ -73,18 +80,7 @@ public class LecturerMenu {
             return;
         }
 
-        TableUtil.printLecturerHeader();
-
-        for (Lecturer lecturer : service.getAllLecturers()) {
-            TableUtil.printLecturerRow(
-                    lecturer.getId(),
-                    lecturer.getNidn(),
-                    lecturer.getName(),
-                    lecturer.getDepartment()
-            );
-        }
-
-        TableUtil.printLecturerFooter();
+        printLecturerTable(service.getAllLecturers());
     }
 
     private void searchLecturer() {
@@ -138,6 +134,26 @@ public class LecturerMenu {
         } catch (LecturerException e) {
             ConsoleUtil.error(e.getMessage());
         }
+    }
+
+    private void printLecturerTable(ArrayList<Lecturer> lecturers) {
+        String[] headers = {
+                "ID",
+                "NIDN",
+                "Nama",
+                "Departemen"
+        };
+
+        List<String[]> rows = lecturers.stream()
+                .map(lecturer -> new String[]{
+                        String.valueOf(lecturer.getId()),
+                        lecturer.getNidn(),
+                        lecturer.getName(),
+                        lecturer.getDepartment()
+                })
+                .toList();
+
+        GenericTableUtil.print(headers, rows);
     }
 
     private void printLecturer(Lecturer lecturer) {

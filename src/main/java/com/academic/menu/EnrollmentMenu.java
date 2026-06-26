@@ -7,8 +7,12 @@ import com.academic.service.EnrollmentService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
+import com.academic.util.GenericTableUtil;
 
-public class EnrollmentMenu {
+import java.util.List;
+import java.util.ArrayList;
+
+public class EnrollmentMenu extends BaseMenu {
 
     private final EnrollmentService service = AppConfig.getEnrollmentService();
 
@@ -16,14 +20,17 @@ public class EnrollmentMenu {
         boolean running = true;
 
         while (running) {
-            ConsoleUtil.title("MENU KRS / ENROLLMENT");
-            System.out.println("1. Tambah KRS");
-            System.out.println("2. Lihat Semua KRS");
-            System.out.println("3. Lihat KRS Mahasiswa");
-            System.out.println("4. Hapus KRS");
-            System.out.println("5. Kembali");
+            String[] menus = {
+                    "1. Tambah KRS",
+                    "2. Lihat Semua KRS",
+                    "3. Lihat KRS Mahasiswa",
+                    "4. Hapus KRS",
+                    "5. Kembali"
+            };
 
-            int menu = InputUtil.inputInteger("Pilih menu: ");
+            printMenu("MENU KRS / ENROLLMENT", menus);
+
+            int menu = inputMenu();
 
             switch (menu) {
                 case 1 -> addEnrollment();
@@ -31,7 +38,7 @@ public class EnrollmentMenu {
                 case 3 -> showStudentEnrollments();
                 case 4 -> deleteEnrollment();
                 case 5 -> running = false;
-                default -> ConsoleUtil.error("Menu tidak tersedia.");
+                default -> invalidMenu();
             }
         }
     }
@@ -59,17 +66,7 @@ public class EnrollmentMenu {
             return;
         }
 
-        TableUtil.printEnrollmentHeader();
-
-        for (Enrollment enrollment : service.getAllEnrollments()) {
-            TableUtil.printEnrollmentRow(
-                    enrollment.getId(),
-                    enrollment.getStudentNim(),
-                    enrollment.getCourseCode()
-            );
-        }
-
-        TableUtil.printEnrollmentFooter();
+        printEnrollmentTable(service.getAllEnrollments());
     }
 
     private void showStudentEnrollments() {
@@ -101,6 +98,24 @@ public class EnrollmentMenu {
         } catch (EnrollmentException e) {
             ConsoleUtil.error(e.getMessage());
         }
+    }
+
+    private void printEnrollmentTable(ArrayList<Enrollment> enrollments) {
+        String[] headers = {
+                "ID",
+                "NIM",
+                "Kode MK"
+        };
+
+        List<String[]> rows = enrollments.stream()
+                .map(enrollment -> new String[]{
+                        String.valueOf(enrollment.getId()),
+                        enrollment.getStudentNim(),
+                        enrollment.getCourseCode()
+                })
+                .toList();
+
+        GenericTableUtil.print(headers, rows);
     }
 
     private void printEnrollment(Enrollment enrollment) {

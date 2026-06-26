@@ -34,4 +34,8 @@ public final class MessageConstant {
     public static final String GRADE_UPDATE_SUCCESS = "Data nilai berhasil diupdate.";
     public static final String GRADE_DELETE_SUCCESS = "Data nilai berhasil dihapus.";
     public static final String GRADE_EMPTY = "Belum ada data nilai.";
+
+    public static final String STUDENT_SEARCH_EMPTY = "Data mahasiswa tidak ditemukan.";
+    public static final String FIRST_PAGE = "Sudah di halaman pertama.";
+    public static final String LAST_PAGE = "Sudah di halaman terakhir.";
 }

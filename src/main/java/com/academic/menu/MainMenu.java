@@ -1,18 +1,19 @@
 package com.academic.menu;
 
+import com.academic.constant.MessageConstant;
 import com.academic.service.LoginService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
-import com.academic.constant.MessageConstant;
 
-public class MainMenu {
+public class MainMenu extends BaseMenu {
 
     private final LoginService loginService = new LoginService();
+
+    private final DashboardMenu dashboardMenu = new DashboardMenu();
     private final StudentMenu studentMenu = new StudentMenu();
     private final LecturerMenu lecturerMenu = new LecturerMenu();
     private final CourseMenu courseMenu = new CourseMenu();
     private final GradeMenu gradeMenu = new GradeMenu();
-    private final DashboardMenu dashboardMenu = new DashboardMenu();
     private final EnrollmentMenu enrollmentMenu = new EnrollmentMenu();
 
     public void show() {
@@ -24,16 +25,19 @@ public class MainMenu {
         boolean running = true;
 
         while (running) {
-            ConsoleUtil.title("ACADEMIC SYSTEM");
-            System.out.println("1. Dashboard");
-            System.out.println("2. Mahasiswa");
-            System.out.println("3. Dosen");
-            System.out.println("4. Mata Kuliah");
-            System.out.println("5. Nilai");
-            System.out.println("6. KRS / Enrollment");
-            System.out.println("7. Logout");
+            String[] menus = {
+                    "1. Dashboard",
+                    "2. Mahasiswa",
+                    "3. Dosen",
+                    "4. Mata Kuliah",
+                    "5. Nilai",
+                    "6. KRS / Enrollment",
+                    "7. Logout"
+            };
 
-            int menu = InputUtil.inputInteger("Pilih menu: ");
+            printMenu("ACADEMIC MANAGEMENT SYSTEM", menus);
+
+            int menu = inputMenu();
 
             switch (menu) {
                 case 1 -> dashboardMenu.show();
@@ -44,9 +48,9 @@ public class MainMenu {
                 case 6 -> enrollmentMenu.show();
                 case 7 -> {
                     running = false;
-                    ConsoleUtil.success("Logout berhasil.");
+                    ConsoleUtil.success(MessageConstant.LOGOUT_SUCCESS);
                 }
-                default -> ConsoleUtil.error("Menu tidak tersedia.");
+                default -> invalidMenu();
             }
         }
     }

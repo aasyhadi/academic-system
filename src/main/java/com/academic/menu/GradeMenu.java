@@ -8,8 +8,12 @@ import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
 import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
+import com.academic.util.GenericTableUtil;
 
-public class GradeMenu {
+import java.util.List;
+import java.util.ArrayList;
+
+public class GradeMenu extends BaseMenu {
 
     private final GradeService service = AppConfig.getGradeService();
 
@@ -17,16 +21,19 @@ public class GradeMenu {
         boolean running = true;
 
         while (running) {
-            ConsoleUtil.title("MENU NILAI");
-            System.out.println("1. Tambah Nilai");
-            System.out.println("2. Lihat Nilai");
-            System.out.println("3. Cari Nilai");
-            System.out.println("4. Update Nilai");
-            System.out.println("5. Hapus Nilai");
-            System.out.println("6. Transkrip Mahasiswa");
-            System.out.println("7. Kembali");
+            String[] menus = {
+                    "1. Tambah Nilai",
+                    "2. Lihat Nilai",
+                    "3. Cari Nilai",
+                    "4. Update Nilai",
+                    "5. Hapus Nilai",
+                    "6. Transkrip Mahasiswa",
+                    "7. Kembali"
+            };
 
-            int menu = InputUtil.inputInteger("Pilih menu: ");
+            printMenu("MENU NILAI", menus);
+
+            int menu = inputMenu();
 
             switch (menu) {
                 case 1 -> addGrade();
@@ -36,7 +43,7 @@ public class GradeMenu {
                 case 5 -> deleteGrade();
                 case 6 -> showStudentTranscript();
                 case 7 -> running = false;
-                default -> ConsoleUtil.error(MessageConstant.MENU_NOT_AVAILABLE);
+                default -> invalidMenu();
             }
         }
     }
@@ -65,19 +72,7 @@ public class GradeMenu {
             return;
         }
 
-        TableUtil.printGradeHeader();
-
-        for (Grade grade : service.getAllGrades()) {
-            TableUtil.printGradeRow(
-                    grade.getId(),
-                    grade.getStudentNim(),
-                    grade.getCourseCode(),
-                    grade.getScore(),
-                    grade.getLetter()
-            );
-        }
-
-        TableUtil.printGradeFooter();
+        printGradeTable(service.getAllGrades());
     }
 
     private void searchGrade() {
@@ -155,6 +150,28 @@ public class GradeMenu {
         } catch (GradeException e) {
             ConsoleUtil.error(e.getMessage());
         }
+    }
+
+    private void printGradeTable(ArrayList<Grade> grades) {
+        String[] headers = {
+                "ID",
+                "NIM",
+                "Kode MK",
+                "Nilai",
+                "Huruf"
+        };
+
+        List<String[]> rows = grades.stream()
+                .map(grade -> new String[]{
+                        String.valueOf(grade.getId()),
+                        grade.getStudentNim(),
+                        grade.getCourseCode(),
+                        String.valueOf(grade.getScore()),
+                        grade.getLetter()
+                })
+                .toList();
+
+        GenericTableUtil.print(headers, rows);
     }
 
     private void printGrade(Grade grade) {
