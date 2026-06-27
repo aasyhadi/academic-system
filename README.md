@@ -1,45 +1,91 @@
 # Academic Management System
 
-Academic Management System adalah aplikasi console berbasis Java untuk mengelola data akademik seperti mahasiswa, dosen, mata kuliah, KRS, nilai, transkrip, IPK sederhana, dashboard, file storage, dan export CSV.
-
-## Tech Stack
-
-- Java 21
-- Maven
-- IntelliJ IDEA
-- OOP
-- Collection Framework
-- Stream API
-- Repository Pattern
-- Service Layer
-- Validation
-- Exception Handling
-- Singleton Pattern
-- Factory Pattern
-- File Storage
-- CSV Export
+Console Based Academic Information System built with Java, Maven, OOP, Repository Pattern, Service Layer, Validation Layer, Factory Pattern, and Unit Testing.
 
 ## Features
 
-- Login Admin
-- Dashboard Akademik
-- CRUD Mahasiswa
-- CRUD Dosen
-- CRUD Mata Kuliah
-- CRUD Nilai
-- KRS / Enrollment
-- Transkrip Nilai Mahasiswa
-- Nilai Huruf Otomatis
-- IPK Sementara
-- Search Mahasiswa by NIM, Nama, Jurusan
-- Sorting Mahasiswa by NIM, Nama, Semester
-- Pagination Mahasiswa
-- File Storage `.txt`
-- Export CSV
-- Console Table UI
+### Student Management
+- Add Student
+- Update Student
+- Delete Student
+- Search Student
+- Sort Student
+- Pagination
 
-## Login
+### Lecturer Management
+- Add Lecturer
+- Update Lecturer
+- Delete Lecturer
+
+### Course Management
+- Add Course
+- Update Course
+- Delete Course
+
+### Enrollment Management
+- Student Course Enrollment
+- Enrollment Validation
+
+### Grade Management
+- Add Grade
+- Update Grade
+- Delete Grade
+- GPA Calculation
+- Grade Letter Conversion
+
+## Architecture
+
+- OOP
+- Repository Pattern
+- Service Layer
+- Validation Layer
+- Dependency Injection
+- Factory Pattern
+- Singleton Repository
+- Custom Exception
+- Logging Utility
+
+## Technologies
+
+- Java 21
+- Maven
+- JUnit 5
+- Mockito
+
+## Unit Testing
+
+| Module | Status |
+|----------|----------|
+| StudentServiceTest | ✅ PASS |
+| LecturerServiceTest | ✅ PASS |
+| CourseServiceTest | ✅ PASS |
+| EnrollmentServiceTest | ✅ PASS |
+| GradeServiceTest | ✅ PASS |
+
+## Project Structure
 
 ```text
-Username: admin
-Password: admin123
+src
+├── main
+│   ├── java
+│   │   └── com.academic
+│   │       ├── config
+│   │       ├── constant
+│   │       ├── enums
+│   │       ├── exception
+│   │       ├── factory
+│   │       ├── menu
+│   │       ├── model
+│   │       ├── repository
+│   │       ├── service
+│   │       ├── util
+│   │       └── validation
+│
+└── test
+    └── java
+        └── com.academic.service
+```
+
+## Author
+
+Aasyahadi

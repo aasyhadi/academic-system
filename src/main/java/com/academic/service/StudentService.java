@@ -5,6 +5,7 @@ import com.academic.exception.StudentException;
 import com.academic.model.Student;
 import com.academic.validation.StudentValidator;
 import com.academic.repository.interfaces.IStudentRepository;
+import com.academic.util.AppLogger;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,6 +33,7 @@ public class StudentService {
         }
 
         repository.save(student);
+        AppLogger.success("Student added: " + student.getNim());
     }
 
     public ArrayList<Student> getAllStudents() {

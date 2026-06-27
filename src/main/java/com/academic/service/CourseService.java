@@ -5,6 +5,7 @@ import com.academic.model.Course;
 import com.academic.validation.CourseValidator;
 import com.academic.constant.MessageConstant;
 import com.academic.repository.interfaces.ICourseRepository;
+import com.academic.util.AppLogger;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class CourseService {
         }
 
         repository.save(course);
+        AppLogger.success("Course added: " + course.getCode());
     }
 
     public ArrayList<Course> getAllCourses() {
