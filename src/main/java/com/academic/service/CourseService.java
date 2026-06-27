@@ -5,16 +5,18 @@ import com.academic.model.Course;
 import com.academic.repository.CourseRepository;
 import com.academic.validation.CourseValidator;
 import com.academic.constant.MessageConstant;
+import com.academic.repository.interfaces.ICourseRepository;
 
 import java.util.ArrayList;
 
 public class CourseService {
 
-    private final CourseRepository repository;
+    private final ICourseRepository repository;
     private final CourseValidator validator;
 
-    public CourseService(CourseRepository repository,
-                         CourseValidator validator) {
+    public CourseService(
+            ICourseRepository repository,
+            CourseValidator validator) {
         this.repository = repository;
         this.validator = validator;
     }

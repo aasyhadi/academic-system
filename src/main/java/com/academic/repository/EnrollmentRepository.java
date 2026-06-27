@@ -1,15 +1,30 @@
 package com.academic.repository;
 
 import com.academic.model.Enrollment;
+import com.academic.repository.interfaces.IEnrollmentRepository;
 import com.academic.util.EnrollmentFileStorage;
+
 import java.util.ArrayList;
 
-public class EnrollmentRepository {
+public class EnrollmentRepository implements IEnrollmentRepository {
 
     private static EnrollmentRepository instance;
 
-    private final ArrayList<Enrollment> enrollments = EnrollmentFileStorage.load();
+    private final ArrayList<Enrollment> enrollments =
+            EnrollmentFileStorage.load();
+
     private Long sequence = getNextSequence();
+
+    private EnrollmentRepository() {
+    }
+
+    public static EnrollmentRepository getInstance() {
+        if (instance == null) {
+            instance = new EnrollmentRepository();
+        }
+
+        return instance;
+    }
 
     private Long getNextSequence() {
         Long maxId = 0L;
@@ -23,17 +38,7 @@ public class EnrollmentRepository {
         return maxId + 1;
     }
 
-    private EnrollmentRepository() {
-    }
-
-    public static EnrollmentRepository getInstance() {
-        if (instance == null) {
-            instance = new EnrollmentRepository();
-        }
-
-        return instance;
-    }
-
+    @Override
     public void save(Enrollment enrollment) {
         enrollment.setId(sequence);
         sequence++;
@@ -41,13 +46,18 @@ public class EnrollmentRepository {
         EnrollmentFileStorage.save(enrollments);
     }
 
+    @Override
     public ArrayList<Enrollment> findAll() {
         return enrollments;
     }
 
-    public Enrollment findByStudentNimAndCourseCode(String studentNim, String courseCode) {
+    @Override
+    public Enrollment findByStudentNimAndCourseCode(
+            String nim,
+            String courseCode
+    ) {
         for (Enrollment enrollment : enrollments) {
-            if (enrollment.getStudentNim().equalsIgnoreCase(studentNim)
+            if (enrollment.getStudentNim().equalsIgnoreCase(nim)
                     && enrollment.getCourseCode().equalsIgnoreCase(courseCode)) {
                 return enrollment;
             }
@@ -56,11 +66,12 @@ public class EnrollmentRepository {
         return null;
     }
 
-    public ArrayList<Enrollment> findByStudentNim(String studentNim) {
+    @Override
+    public ArrayList<Enrollment> findByStudentNim(String nim) {
         ArrayList<Enrollment> result = new ArrayList<>();
 
         for (Enrollment enrollment : enrollments) {
-            if (enrollment.getStudentNim().equalsIgnoreCase(studentNim)) {
+            if (enrollment.getStudentNim().equalsIgnoreCase(nim)) {
                 result.add(enrollment);
             }
         }
@@ -68,8 +79,10 @@ public class EnrollmentRepository {
         return result;
     }
 
-    public boolean delete(String studentNim, String courseCode) {
-        Enrollment enrollment = findByStudentNimAndCourseCode(studentNim, courseCode);
+    @Override
+    public boolean delete(String nim, String courseCode) {
+        Enrollment enrollment =
+                findByStudentNimAndCourseCode(nim, courseCode);
 
         if (enrollment == null) {
             return false;

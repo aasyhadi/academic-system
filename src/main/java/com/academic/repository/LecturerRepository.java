@@ -2,11 +2,11 @@ package com.academic.repository;
 
 import com.academic.model.Lecturer;
 import com.academic.util.LecturerFileStorage;
+import com.academic.repository.interfaces.ILecturerRepository;
 
 import java.util.ArrayList;
 
-public class LecturerRepository {
-
+public class LecturerRepository implements ILecturerRepository {
     private static LecturerRepository instance;
 
     private final ArrayList<Lecturer> lecturers = LecturerFileStorage.load();
@@ -35,6 +35,7 @@ public class LecturerRepository {
         return instance;
     }
 
+    @Override
     public void save(Lecturer lecturer) {
         lecturer.setId(sequence);
         sequence++;
@@ -42,10 +43,12 @@ public class LecturerRepository {
         LecturerFileStorage.save(lecturers);
     }
 
+    @Override
     public ArrayList<Lecturer> findAll() {
         return lecturers;
     }
 
+    @Override
     public Lecturer findByNidn(String nidn) {
         for (Lecturer lecturer : lecturers) {
             if (lecturer.getNidn().equals(nidn)) {
@@ -56,6 +59,7 @@ public class LecturerRepository {
         return null;
     }
 
+    @Override
     public boolean update(String nidn, Lecturer updatedLecturer) {
         Lecturer existingLecturer = findByNidn(nidn);
 
@@ -73,6 +77,7 @@ public class LecturerRepository {
         return true;
     }
 
+    @Override
     public boolean delete(String nidn) {
         Lecturer lecturer = findByNidn(nidn);
 

@@ -5,16 +5,17 @@ import com.academic.exception.StudentException;
 import com.academic.model.Student;
 import com.academic.repository.StudentRepository;
 import com.academic.validation.StudentValidator;
+import com.academic.repository.interfaces.IStudentRepository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class StudentService {
 
-    private final StudentRepository repository;
+    private final IStudentRepository repository;
     private final StudentValidator validator;
 
-    public StudentService(StudentRepository repository,
+    public StudentService(IStudentRepository repository,
                           StudentValidator validator) {
         this.repository = repository;
         this.validator = validator;

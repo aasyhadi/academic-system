@@ -2,10 +2,12 @@ package com.academic.repository;
 
 import com.academic.model.Course;
 import com.academic.util.CourseFileStorage;
+import com.academic.repository.interfaces.ICourseRepository;
 
 import java.util.ArrayList;
 
-public class CourseRepository {
+public class CourseRepository
+        implements ICourseRepository {
 
     private static CourseRepository instance;
 
@@ -35,6 +37,7 @@ public class CourseRepository {
         return instance;
     }
 
+    @Override
     public void save(Course course) {
         course.setId(sequence);
         sequence++;
@@ -42,10 +45,12 @@ public class CourseRepository {
         CourseFileStorage.save(courses);
     }
 
+    @Override
     public ArrayList<Course> findAll() {
         return courses;
     }
 
+    @Override
     public Course findByCode(String code) {
         for (Course course : courses) {
             if (course.getCode().equalsIgnoreCase(code)) {
@@ -56,6 +61,7 @@ public class CourseRepository {
         return null;
     }
 
+    @Override
     public boolean update(String code, Course updatedCourse) {
         Course existingCourse = findByCode(code);
 
@@ -71,6 +77,7 @@ public class CourseRepository {
         return true;
     }
 
+    @Override
     public boolean delete(String code) {
         Course course = findByCode(code);
 

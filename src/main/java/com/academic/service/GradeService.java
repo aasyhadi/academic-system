@@ -2,27 +2,28 @@ package com.academic.service;
 
 import com.academic.exception.GradeException;
 import com.academic.model.Grade;
-import com.academic.repository.CourseRepository;
-import com.academic.repository.GradeRepository;
-import com.academic.repository.StudentRepository;
 import com.academic.validation.GradeValidator;
 import com.academic.constant.MessageConstant;
 import com.academic.util.GradeUtil;
 import com.academic.util.GpaUtil;
+import com.academic.repository.interfaces.IGradeRepository;
+import com.academic.repository.interfaces.IStudentRepository;
+import com.academic.repository.interfaces.ICourseRepository;
 
 import java.util.ArrayList;
 
 public class GradeService {
 
-    private final GradeRepository gradeRepository;
-    private final StudentRepository studentRepository;
-    private final CourseRepository courseRepository;
+    private final IGradeRepository gradeRepository;
+    private final IStudentRepository studentRepository;
+    private final ICourseRepository courseRepository;
     private final GradeValidator validator;
 
-    public GradeService(GradeRepository gradeRepository,
-                        StudentRepository studentRepository,
-                        CourseRepository courseRepository,
-                        GradeValidator validator) {
+    public GradeService(
+            IGradeRepository gradeRepository,
+            IStudentRepository studentRepository,
+            ICourseRepository courseRepository,
+            GradeValidator validator) {
         this.gradeRepository = gradeRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;

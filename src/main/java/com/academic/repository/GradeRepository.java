@@ -3,8 +3,9 @@ package com.academic.repository;
 import com.academic.model.Grade;
 import com.academic.util.GradeFileStorage;
 import java.util.ArrayList;
+import com.academic.repository.interfaces.IGradeRepository;
 
-public class GradeRepository {
+public class GradeRepository implements IGradeRepository {
 
     private static GradeRepository instance;
 
@@ -34,6 +35,7 @@ public class GradeRepository {
         return instance;
     }
 
+    @Override
     public void save(Grade grade) {
         grade.setId(sequence);
         sequence++;
@@ -41,10 +43,12 @@ public class GradeRepository {
         GradeFileStorage.save(grades);
     }
 
+    @Override
     public ArrayList<Grade> findAll() {
         return grades;
     }
 
+    @Override
     public Grade findByStudentNimAndCourseCode(String nim, String courseCode) {
         for (Grade grade : grades) {
             if (grade.getStudentNim().equalsIgnoreCase(nim)
@@ -56,6 +60,7 @@ public class GradeRepository {
         return null;
     }
 
+    @Override
     public boolean update(String nim, String courseCode, Grade updatedGrade) {
         Grade existingGrade = findByStudentNimAndCourseCode(nim, courseCode);
 
@@ -69,6 +74,7 @@ public class GradeRepository {
         return true;
     }
 
+    @Override
     public boolean delete(String nim, String courseCode) {
         Grade grade = findByStudentNimAndCourseCode(nim, courseCode);
 
@@ -81,6 +87,7 @@ public class GradeRepository {
         return true;
     }
 
+    @Override
     public ArrayList<Grade> findByStudentNim(String nim) {
         ArrayList<Grade> result = new ArrayList<>();
 
@@ -92,4 +99,19 @@ public class GradeRepository {
 
         return result;
     }
+
+    @Override
+    public ArrayList<Grade> findByCourseCode(String courseCode) {
+        ArrayList<Grade> result = new ArrayList<>();
+
+        for (Grade grade : grades) {
+            if (grade.getCourseCode().equalsIgnoreCase(courseCode)) {
+                result.add(grade);
+            }
+        }
+
+        return result;
+    }
+
+
 }

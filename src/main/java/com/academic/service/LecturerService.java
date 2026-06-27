@@ -5,15 +5,16 @@ import com.academic.model.Lecturer;
 import com.academic.repository.LecturerRepository;
 import com.academic.validation.LecturerValidator;
 import com.academic.constant.MessageConstant;
+import com.academic.repository.interfaces.ILecturerRepository;
 
 import java.util.ArrayList;
 
 public class LecturerService {
 
-    private final LecturerRepository repository;
+    private final ILecturerRepository repository;
     private final LecturerValidator validator;
 
-    public LecturerService(LecturerRepository repository,
+    public LecturerService(ILecturerRepository repository,
                            LecturerValidator validator) {
         this.repository = repository;
         this.validator = validator;

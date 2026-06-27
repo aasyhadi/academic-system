@@ -38,4 +38,7 @@ public final class MessageConstant {
     public static final String STUDENT_SEARCH_EMPTY = "Data mahasiswa tidak ditemukan.";
     public static final String FIRST_PAGE = "Sudah di halaman pertama.";
     public static final String LAST_PAGE = "Sudah di halaman terakhir.";
+
+    public static final String ENROLLMENT_ALREADY_EXISTS = "Mahasiswa sudah mengambil mata kuliah ini.";
+    public static final String ENROLLMENT_NOT_FOUND = "Data KRS tidak ditemukan.";
 }

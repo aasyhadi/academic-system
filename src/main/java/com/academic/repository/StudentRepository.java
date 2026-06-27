@@ -4,8 +4,9 @@ import com.academic.model.Student;
 import com.academic.util.StudentFileStorage;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import com.academic.repository.interfaces.IStudentRepository;
 
-public class StudentRepository {
+public class StudentRepository implements IStudentRepository {
 
     private static StudentRepository instance;
 
@@ -35,6 +36,7 @@ public class StudentRepository {
         return instance;
     }
 
+    @Override
     public void save(Student student) {
         student.setId(sequence);
         sequence++;
@@ -42,10 +44,12 @@ public class StudentRepository {
         StudentFileStorage.save(students);
     }
 
+    @Override
     public ArrayList<Student> findAll() {
         return students;
     }
 
+    @Override
     public Student findByNim(String nim) {
         for (Student student : students) {
             if (student.getNim().equals(nim)) {
@@ -56,6 +60,7 @@ public class StudentRepository {
         return null;
     }
 
+    @Override
     public boolean update(String nim, Student updatedStudent) {
         Student existingStudent = findByNim(nim);
 
@@ -74,6 +79,7 @@ public class StudentRepository {
         return true;
     }
 
+    @Override
     public ArrayList<Student> searchByName(String keyword) {
         ArrayList<Student> result = new ArrayList<>();
 
@@ -86,6 +92,7 @@ public class StudentRepository {
         return result;
     }
 
+    @Override
     public ArrayList<Student> searchByMajor(String major) {
         return students.stream()
                 .filter(student ->
@@ -94,6 +101,7 @@ public class StudentRepository {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    @Override
     public boolean delete(String nim) {
         Student student = findByNim(nim);
 
