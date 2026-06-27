@@ -2,7 +2,6 @@ package com.academic.service;
 
 import com.academic.exception.CourseException;
 import com.academic.model.Course;
-import com.academic.repository.CourseRepository;
 import com.academic.validation.CourseValidator;
 import com.academic.constant.MessageConstant;
 import com.academic.repository.interfaces.ICourseRepository;

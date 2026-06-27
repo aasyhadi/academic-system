@@ -2,7 +2,6 @@ package com.academic.service;
 
 import com.academic.exception.LecturerException;
 import com.academic.model.Lecturer;
-import com.academic.repository.LecturerRepository;
 import com.academic.validation.LecturerValidator;
 import com.academic.constant.MessageConstant;
 import com.academic.repository.interfaces.ILecturerRepository;

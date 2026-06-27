@@ -6,7 +6,6 @@ import com.academic.model.Enrollment;
 import com.academic.service.EnrollmentService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
-import com.academic.util.TableUtil;
 import com.academic.util.GenericTableUtil;
 import com.academic.util.AcademicCsvExporter;
 

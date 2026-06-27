@@ -6,7 +6,6 @@ import com.academic.model.Lecturer;
 import com.academic.service.LecturerService;
 import com.academic.util.ConsoleUtil;
 import com.academic.util.InputUtil;
-import com.academic.util.TableUtil;
 import com.academic.constant.MessageConstant;
 import com.academic.util.GenericTableUtil;
 import com.academic.util.AcademicCsvExporter;

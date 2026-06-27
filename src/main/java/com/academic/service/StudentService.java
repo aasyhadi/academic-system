@@ -3,7 +3,6 @@ package com.academic.service;
 import com.academic.constant.MessageConstant;
 import com.academic.exception.StudentException;
 import com.academic.model.Student;
-import com.academic.repository.StudentRepository;
 import com.academic.validation.StudentValidator;
 import com.academic.repository.interfaces.IStudentRepository;
 
